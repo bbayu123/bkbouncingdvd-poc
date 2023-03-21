@@ -63,9 +63,9 @@ public class Main extends JavaPlugin {
 		this.getCommand("bouncingdvd-jg").setExecutor(this);
 
 		try (InputStream stream = this.getResource("dvd_logo.png")) {
-			dvdLogoImage = ImageIO.read(stream);
-			dvdLogoImage.setAccelerationPriority(1);
-			dvdLogoTexture = MapTexture.fromImage(dvdLogoImage);
+			Main.dvdLogoImage = ImageIO.read(stream);
+			Main.dvdLogoImage.setAccelerationPriority(1);
+			Main.dvdLogoTexture = MapTexture.fromImage(Main.dvdLogoImage);
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
@@ -134,18 +134,18 @@ public class Main extends JavaPlugin {
 	 * @return the DVD logo texture
 	 */
 	public static MapTexture getDVDLogoTexture() {
-		return dvdLogoTexture;
+		return Main.dvdLogoTexture;
 	}
 
 	/**
 	 * Gets the DVD logo image
 	 * <p>
 	 * This is the image that was loaded in {@link #onEnable()}.
-	 * 
+	 *
 	 * @return the DVD logo image
 	 */
 	public static BufferedImage getDVDLogoImage() {
-		return dvdLogoImage;
+		return Main.dvdLogoImage;
 	}
 
 	public static GraphicsConfiguration getDefaultGraphicsConfiguration() {

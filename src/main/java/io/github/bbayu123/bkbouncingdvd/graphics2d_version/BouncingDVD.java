@@ -22,8 +22,10 @@ import java.awt.Color;
 import java.awt.Graphics2D;
 import java.awt.Transparency;
 import java.awt.image.BufferedImage;
+import java.awt.image.VolatileImage;
 import java.util.Random;
 
+import com.bergerkiller.bukkit.common.map.MapBlendMode;
 import com.bergerkiller.bukkit.common.map.MapDisplay;
 import com.bergerkiller.bukkit.common.map.MapDisplayProperties;
 import com.bergerkiller.bukkit.common.map.MapSessionMode;
@@ -103,13 +105,14 @@ public class BouncingDVD extends MapDisplay {
 		this.setUpdateWithoutViewers(false);
 		this.setSessionMode(MapSessionMode.ONLINE);
 		this.setMasterVolume(0.3f);
+		this.getLayer().setBlendMode(MapBlendMode.NONE);
 
-		horizontalSpeed = MOVEMENT_SPEED;
-		verticalSpeed = MOVEMENT_SPEED;
+		this.horizontalSpeed = BouncingDVD.MOVEMENT_SPEED;
+		this.verticalSpeed = BouncingDVD.MOVEMENT_SPEED;
 
 		this.logoImage = Main.getDVDLogoImage();
-		this.positionX = (this.getWidth() - logoImage.getWidth()) / 3;
-		this.positionY = (this.getHeight() - logoImage.getHeight()) / 2;
+		this.positionX = (this.getWidth() - this.logoImage.getWidth()) / 3;
+		this.positionY = (this.getHeight() - this.logoImage.getHeight()) / 2;
 		this.color = Color.WHITE;
 	}
 
@@ -121,69 +124,69 @@ public class BouncingDVD extends MapDisplay {
 	 */
 	@Override
 	public void onTick() {
-		drawIcon();
+		this.drawIcon();
 
-		positionX += horizontalSpeed;
-		positionY += verticalSpeed;
+		this.positionX += this.horizontalSpeed;
+		this.positionY += this.verticalSpeed;
 
-		checkWalls();
+		this.checkWalls();
 	}
 
 	private void drawIcon() {
-		BufferedImage master = Main.getDefaultGraphicsConfiguration().createCompatibleImage(this.getWidth(),
+		VolatileImage master = Main.getDefaultGraphicsConfiguration().createCompatibleVolatileImage(this.getWidth(),
 				this.getHeight(), Transparency.BITMASK);
-		master.setAccelerationPriority(1);
 		Graphics2D g = master.createGraphics();
 
 		g.setColor(Color.BLACK);
 		g.fillRect(0, 0, master.getWidth(), master.getHeight());
 
-		BufferedImage tinted = Main.getDefaultGraphicsConfiguration().createCompatibleImage(logoImage.getWidth(),
-				logoImage.getHeight(), Transparency.BITMASK);
-		tinted.setAccelerationPriority(1);
+		VolatileImage tinted = Main.getDefaultGraphicsConfiguration().createCompatibleVolatileImage(
+				this.logoImage.getWidth(), this.logoImage.getHeight(), Transparency.BITMASK);
+
 		Graphics2D g2 = tinted.createGraphics();
-		g2.drawImage(logoImage, 0, 0, null);
+		g2.setBackground(new Color(1, 1, 1, 0));
+		g2.clearRect(0, 0, tinted.getWidth(), tinted.getHeight());
+		g2.drawImage(this.logoImage, 0, 0, null);
 		g2.setComposite(AlphaComposite.SrcAtop);
-		g2.setColor(color);
+		g2.setColor(this.color);
 		g2.fillRect(0, 0, tinted.getWidth(), tinted.getHeight());
 		g2.dispose();
 
-		g.drawImage(tinted, positionX, positionY, null);
+		g.drawImage(tinted, this.positionX, this.positionY, null);
 		g.dispose();
 
-		this.getLayer(0).clear();
 		this.getLayer(0).draw(MapTexture.fromImage(master), 0, 0);
 	}
 
 	private void checkWalls() {
-		if (horizontalSpeed > 0 && positionX + logoImage.getWidth() >= this.getWidth() - 1) {
+		if (this.horizontalSpeed > 0 && this.positionX + this.logoImage.getWidth() >= this.getWidth() - 1) {
 			// Right edge
-			horizontalSpeed = -MOVEMENT_SPEED;
-			updateColor();
+			this.horizontalSpeed = -BouncingDVD.MOVEMENT_SPEED;
+			this.updateColor();
 		}
-		if (horizontalSpeed < 0 && positionX <= 0) {
+		if (this.horizontalSpeed < 0 && this.positionX <= 0) {
 			// Left edge
-			horizontalSpeed = MOVEMENT_SPEED;
-			updateColor();
+			this.horizontalSpeed = BouncingDVD.MOVEMENT_SPEED;
+			this.updateColor();
 		}
 
-		if (verticalSpeed > 0 && positionY + logoImage.getHeight() >= this.getHeight() - 1) {
+		if (this.verticalSpeed > 0 && this.positionY + this.logoImage.getHeight() >= this.getHeight() - 1) {
 			// Bottom edge
-			verticalSpeed = -MOVEMENT_SPEED;
-			updateColor();
+			this.verticalSpeed = -BouncingDVD.MOVEMENT_SPEED;
+			this.updateColor();
 		}
-		if (verticalSpeed < 0 && positionY <= 0) {
+		if (this.verticalSpeed < 0 && this.positionY <= 0) {
 			// Top edge
-			verticalSpeed = MOVEMENT_SPEED;
-			updateColor();
+			this.verticalSpeed = BouncingDVD.MOVEMENT_SPEED;
+			this.updateColor();
 		}
 	}
 
 	private void updateColor() {
 		// Generate RGB between $50 and $FF inclusive
-		int r = random.nextInt(0xFF + 1 - 0x50) + 0x50;
-		int g = random.nextInt(0xFF + 1 - 0x50) + 0x50;
-		int b = random.nextInt(0xFF + 1 - 0x50) + 0x50;
+		int r = this.random.nextInt(0xFF + 1 - 0x50) + 0x50;
+		int g = this.random.nextInt(0xFF + 1 - 0x50) + 0x50;
+		int b = this.random.nextInt(0xFF + 1 - 0x50) + 0x50;
 		this.color = new Color(r, g, b);
 	}
 }

@@ -100,14 +100,14 @@ public class BouncingDVD extends MapDisplay {
 		this.setSessionMode(MapSessionMode.ONLINE);
 		this.setMasterVolume(0.3f);
 
-		horizontalSpeed = MOVEMENT_SPEED;
-		verticalSpeed = MOVEMENT_SPEED;
+		this.horizontalSpeed = BouncingDVD.MOVEMENT_SPEED;
+		this.verticalSpeed = BouncingDVD.MOVEMENT_SPEED;
 
 		this.getLayer(-1).fillRectangle(0, 0, this.getWidth(), this.getHeight(), MapColorPalette.COLOR_BLACK);
 
 		this.logoImage = Main.getDVDLogoTexture().clone();
-		this.positionX = (this.getWidth() - logoImage.getWidth()) / 3;
-		this.positionY = (this.getHeight() - logoImage.getHeight()) / 2;
+		this.positionX = (this.getWidth() - this.logoImage.getWidth()) / 3;
+		this.positionY = (this.getHeight() - this.logoImage.getHeight()) / 2;
 		this.color = MapColorPalette.COLOR_WHITE;
 	}
 
@@ -119,48 +119,48 @@ public class BouncingDVD extends MapDisplay {
 	 */
 	@Override
 	public void onTick() {
-		drawIcon();
-		
-		positionX += horizontalSpeed;
-		positionY += verticalSpeed;
+		this.drawIcon();
 
-		checkWalls();
+		this.positionX += this.horizontalSpeed;
+		this.positionY += this.verticalSpeed;
+
+		this.checkWalls();
 	}
-	
+
 	private void drawIcon() {
 		this.getLayer(0).clear();
-		this.getLayer(0).draw(logoImage, positionX, positionY, color);
+		this.getLayer(0).draw(this.logoImage, this.positionX, this.positionY, this.color);
 	}
-	
+
 	private void checkWalls() {
-		if (horizontalSpeed > 0 && positionX + logoImage.getWidth() >= this.getWidth() - 1) {
+		if (this.horizontalSpeed > 0 && this.positionX + this.logoImage.getWidth() >= this.getWidth() - 1) {
 			// Right edge
-			horizontalSpeed = -MOVEMENT_SPEED;
-			updateColor();
+			this.horizontalSpeed = -BouncingDVD.MOVEMENT_SPEED;
+			this.updateColor();
 		}
-		if (horizontalSpeed < 0 && positionX <= 0) {
+		if (this.horizontalSpeed < 0 && this.positionX <= 0) {
 			// Left edge
-			horizontalSpeed = MOVEMENT_SPEED;
-			updateColor();
+			this.horizontalSpeed = BouncingDVD.MOVEMENT_SPEED;
+			this.updateColor();
 		}
 
-		if (verticalSpeed > 0 && positionY + logoImage.getHeight() >= this.getHeight() - 1) {
+		if (this.verticalSpeed > 0 && this.positionY + this.logoImage.getHeight() >= this.getHeight() - 1) {
 			// Bottom edge
-			verticalSpeed = -MOVEMENT_SPEED;
-			updateColor();
+			this.verticalSpeed = -BouncingDVD.MOVEMENT_SPEED;
+			this.updateColor();
 		}
-		if (verticalSpeed < 0 && positionY <= 0) {
+		if (this.verticalSpeed < 0 && this.positionY <= 0) {
 			// Top edge
-			verticalSpeed = MOVEMENT_SPEED;
-			updateColor();
+			this.verticalSpeed = BouncingDVD.MOVEMENT_SPEED;
+			this.updateColor();
 		}
 	}
 
 	private void updateColor() {
 		// Generate RGB between $50 and $FF inclusive
-		int r = random.nextInt(0xFF + 1 - 0x50) + 0x50;
-		int g = random.nextInt(0xFF + 1 - 0x50) + 0x50;
-		int b = random.nextInt(0xFF + 1 - 0x50) + 0x50;
+		int r = this.random.nextInt(0xFF + 1 - 0x50) + 0x50;
+		int g = this.random.nextInt(0xFF + 1 - 0x50) + 0x50;
+		int b = this.random.nextInt(0xFF + 1 - 0x50) + 0x50;
 		this.color = MapColorPalette.getColor(r, g, b);
 	}
 }
