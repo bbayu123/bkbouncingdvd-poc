@@ -1,0 +1,17 @@
+name: BKBouncingDVD
+main: io.github.bbayu123.bkbouncingdvd.Main
+version: ${project.version}
+author: bbayu
+authors: []
+depend: [BKCommonLib]
+description: Example project for MapDiplays.
+commands:
+    "bouncingdvd-mw":
+        description: Bouncing DVD (MapWidget) command.
+        usage: "\u00A76Usage: /<command> get"
+    "bouncingdvd-mc":
+        description: Bouncing DVD (MapCanvas) command.
+        usage: "\u00A76Usage: /<command> get"
+    "bouncingdvd-jg":
+        description: Bouncing DVD (Graphics2D) command.
+        usage: "\u00A76Usage: /<command> get"
