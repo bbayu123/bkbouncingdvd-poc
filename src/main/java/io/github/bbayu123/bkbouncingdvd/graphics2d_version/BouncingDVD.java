@@ -1,4 +1,5 @@
-/* **********************************************************************
+/*
+ * **********************************************************************
  * Copyright (C) 2023 Cyrus Mian Xi Li (bbayu/bbayu123)
  *
  * This program is free software: you can redistribute it and/or modify
@@ -8,11 +9,11 @@
  *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
  * GNU General Public License for more details.
  *
  * You should have received a copy of the GNU General Public License
- * along with this program.  If not, see <https://www.gnu.org/licenses/>.
+ * along with this program. If not, see <https://www.gnu.org/licenses/>.
  * **********************************************************************
  */
 package io.github.bbayu123.bkbouncingdvd.graphics2d_version;
@@ -133,15 +134,15 @@ public class BouncingDVD extends MapDisplay {
 	}
 
 	private void drawIcon() {
-		VolatileImage master = Main.getDefaultGraphicsConfiguration().createCompatibleVolatileImage(this.getWidth(),
-				this.getHeight(), Transparency.BITMASK);
+		BufferedImage master = Main.getDefaultGraphicsConfiguration().createCompatibleImage(this.getWidth(), this.getHeight(),
+				Transparency.BITMASK);
 		Graphics2D g = master.createGraphics();
 
 		g.setColor(Color.BLACK);
 		g.fillRect(0, 0, master.getWidth(), master.getHeight());
 
-		VolatileImage tinted = Main.getDefaultGraphicsConfiguration().createCompatibleVolatileImage(
-				this.logoImage.getWidth(), this.logoImage.getHeight(), Transparency.BITMASK);
+		VolatileImage tinted = Main.getDefaultGraphicsConfiguration()
+				.createCompatibleVolatileImage(this.logoImage.getWidth(), this.logoImage.getHeight(), Transparency.BITMASK);
 
 		Graphics2D g2 = tinted.createGraphics();
 		g2.setBackground(new Color(1, 1, 1, 0));
