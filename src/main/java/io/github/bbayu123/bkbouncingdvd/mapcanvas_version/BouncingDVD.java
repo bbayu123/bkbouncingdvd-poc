@@ -19,6 +19,7 @@ package io.github.bbayu123.bkbouncingdvd.mapcanvas_version;
 
 import java.util.Random;
 
+import com.bergerkiller.bukkit.common.map.MapBlendMode;
 import com.bergerkiller.bukkit.common.map.MapCanvas;
 import com.bergerkiller.bukkit.common.map.MapColorPalette;
 import com.bergerkiller.bukkit.common.map.MapDisplay;
@@ -103,6 +104,7 @@ public class BouncingDVD extends MapDisplay {
 		this.horizontalSpeed = BouncingDVD.MOVEMENT_SPEED;
 		this.verticalSpeed = BouncingDVD.MOVEMENT_SPEED;
 
+		this.getLayer(-1).setBlendMode(MapBlendMode.NONE);
 		this.getLayer(-1).fillRectangle(0, 0, this.getWidth(), this.getHeight(), MapColorPalette.COLOR_BLACK);
 
 		this.logoImage = Main.getDVDLogoTexture().clone();
@@ -128,6 +130,7 @@ public class BouncingDVD extends MapDisplay {
 	}
 
 	private void drawIcon() {
+		this.getLayer(0).setBlendMode(MapBlendMode.NONE);
 		this.getLayer(0).clear();
 		this.getLayer(0).draw(this.logoImage, this.positionX, this.positionY, this.color);
 	}
